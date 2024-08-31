@@ -25,6 +25,24 @@ public:
         memcpy(m_Data,other.m_Data,m_Size);
     }
 
+    String& operator=(String&& other) noexcept 
+    {
+        //printf("moved using assaignment operator");
+
+        if (this != &other)
+        {
+            delete[] m_Data;
+
+            m_Size = other.m_Size;
+            m_Data = other.m_Data;
+
+            other.m_Size = 0;
+            other.m_Data = nullptr;
+        }
+
+        return *this;
+    }
+
     // move constructor
     String(String&& other) noexcept
     {
@@ -80,7 +98,26 @@ public:
 
 int main()
 {
-    Entity entity("a new allocation");
-    entity.printName();
+    //Entity entity("a new allocation");
+    //entity.printName();
+
+    String string = "hellow";
+    String dest = "" ;
+
+    std::cout << "string :";
+    string.Print();
+
+    std::cout << "destinatrion :";
+    dest.Print();
+
+    printf("--------------------- \n");
+
+    dest = std::move(string);
+    std::cout << "string :";
+    string.Print();
+
+    std::cout << "destination :";
+    dest.Print();
+
     std::cin.get();
 } 
